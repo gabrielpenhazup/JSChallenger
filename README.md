@@ -12,7 +12,7 @@
 
 ##### Na primeira etapa (deve-se utilizar js)
 
-## // OUTPUT 1
+## OUTPUT 1
 
 ```{
     type: 'Categoria1',
@@ -79,4 +79,5 @@
     content: [
       "xxxxx 1",
     ]
-  } ```
+  }
+ ```
