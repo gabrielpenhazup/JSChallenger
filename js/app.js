@@ -10,37 +10,19 @@ const lockers = [
         type: 'Categoria2',
         content: [
             "xxxxx 1",
-            "xxxxx 2",
-            "xxxxx 3",
+            "xxxxx 2"
         ]
     },
-
     {
         type: 'Categoria1',
         content: [
-            "xxxxx 1",
-            "xxxxx 3"
+            "xxxxx 3",
         ]
     },
     {
         type: 'Categoria1',
         content: [
             "xxxxx 4",
-            "xxxxx 5",
-            "xxxxx 6",
-            "xxxxx 7",
-            "xxxxx 8",
-            "xxxxx 9",
-            "xxxxx 10",
-            "xxxxx 11",
-            "xxxxx 12",
-            "xxxxx 13",
-            "xxxxx 14",
-            "xxxxx 15",
-            "xxxxx 16",
-            "xxxxx 17",
-            "xxxxx 18",
-            "xxxxx 19",
         ]
     },
     {
@@ -57,22 +39,30 @@ const lockers = [
     },
 ]
 
-const result = [...new Set(lockers.map(typeFiltered => typeFiltered.type))]
-    .map(typeFiltered => {
-        return {
-            type: typeFiltered,
-            content: [...new Set(lockers.filter(contentFiltered => contentFiltered.type === typeFiltered)
-                .reduce((result, item) => {
-                    return [...result, ...item.content]
-                }, []))
-            ]
-        }
-    })
+//first solution
+function JoinAndFilterFirstArray() {
+    const result = [...new Set(lockers.map(typeFiltered => typeFiltered.type))]
+        .map(typeFiltered => {
+            return {
+                type: typeFiltered,
+                content: [...new Set(lockers.filter(contentFiltered => contentFiltered.type === typeFiltered)
+                    .reduce((result, item) => {
+                        return [...result, ...item.content]
+                    }, []))
+                ]
+            }
+        })
 
-const listContent = result
-    .map((item) => {
-        return (
-            `<thead>
+    ShowFirstArrayFiltered(result);
+}
+
+JoinAndFilterFirstArray();
+
+function ShowFirstArrayFiltered(result) {
+    const listContent = result
+        .map((item) => {
+            return (
+                `<thead>
                 <tr>
                     <th>${item.type}</th>
                 </tr>
@@ -83,7 +73,51 @@ const listContent = result
                 </tr>
             </tbody>
             `
-        )
-    })
+            )
+        })
 
-document.getElementById('content').innerHTML = listContent.join('');
+    document.getElementById('firstSolution').innerHTML = listContent.join('');
+}
+
+//second solution
+function JoinAndFilterSecondArray() {
+    for (let i = 0; i < lockers.length; i++) {
+        for (let j = 1; j < lockers.length; j++) {
+            if (lockers[i].type === lockers[j].type) {
+                const contentCurrent = lockers[i].content;
+                const contentNext = lockers[j].content;
+                lockers[i].content = [...new Set([...contentCurrent, ...contentNext])];
+            }
+        }
+    }
+
+    const arrayFiltered = [...new Set(lockers.map(typeFiltered => typeFiltered.type))]
+        .map(type => {
+            return lockers.find(a => a.type === type)
+        })
+
+    ShowSecondArrayFiltered(arrayFiltered);
+}
+
+JoinAndFilterSecondArray();
+
+function ShowSecondArrayFiltered(arrayFiltered) {
+    const listArrayFiltered = arrayFiltered
+        .map((item) => {
+            return (
+                `<thead>
+                <tr>
+                    <th>${item.type}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>${item.content}</td>
+                </tr>
+            </tbody>
+            `
+            )
+        })
+
+    document.getElementById('secondSolution').innerHTML = listArrayFiltered.join('');
+}

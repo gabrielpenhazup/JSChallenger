@@ -51,7 +51,13 @@ p {
 }
 
 img {
-    width: 100%;
+    width: 60%;
+}
+
+.container-image-solution {
+    margin: 3em 0;
+    display: flex;
+    justify-content: center;
 }
 
 .table {
