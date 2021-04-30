@@ -3,14 +3,11 @@
 
 ## Objetivo
 
-##### A importância do desafio está em mostrar maturidade de código, raciocínio em enfrentar um problema que talvez não tenha passado ainda, fomentar o estudo/busca pelo conhecimento!
+##### The importance of the challenge is to show code maturity, reasoning to face a problem that maybe it hasn’t passed yet, foment the study / search for knowledge!
 
 ## 1 - Desafio Storage 
 
-##### No sistema de storage locker da empresa X os lockers são agrupados por categorias e seus conteúdos. Este ano ao passar por uma vistoria no sistema foi descoberto que seus dados estão duplicados.(Veja o output 1 do sistema ).
-##### Seu objetivo é ajudar essa empresa agrupando esses dados por categorias. (Veja o output 2 do sistema )  
-
-##### Na primeira etapa (deve-se utilizar js)
+##### In company X's storage locker system, lockers are grouped by categories and their contents. This year when going through an inspection in the system it was discovered that its data is duplicated. (See output 1 of system). Your goal is to help this company by grouping this data by categories. (See system output 2). In the first step (you must use js)  
 
 ## OUTPUT 1
 

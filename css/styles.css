@@ -19,7 +19,7 @@ h1 {
 h2 {
     font-size: 2.2em;
     text-align: left;
-    font-weight: 700;
+    font-weight: 600;
     color: #0c3455;
 }
 
@@ -42,22 +42,26 @@ p {
 }
 
 .container-images {
-    flex: 1;
     margin: 2em 0;
     display: flex;
     flex-direction: row;
-    width: 100%;
     justify-content: space-around;
 }
 
 img {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.image-solution img{
     width: 60%;
 }
 
-.container-image-solution {
-    margin: 3em 0;
-    display: flex;
-    justify-content: center;
+@media only screen and (max-width: 600px) {
+    .image-solution img{
+        width: 100%;
+    }
 }
 
 .table {
