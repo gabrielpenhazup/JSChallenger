@@ -10,7 +10,7 @@ const lockers = [
         type: 'Categoria2',
         content: [
             "xxxxx 1",
-            "xxxxx 2"
+            "xxxxx 2",
         ]
     },
     {
@@ -40,25 +40,7 @@ const lockers = [
 ]
 
 //first solution
-function JoinAndFilterFirstArray() {
-    const result = [...new Set(lockers.map(typeFiltered => typeFiltered.type))]
-        .map(typeFiltered => {
-            return {
-                type: typeFiltered,
-                content: [...new Set(lockers.filter(contentFiltered => contentFiltered.type === typeFiltered)
-                    .reduce((result, item) => {
-                        return [...result, ...item.content]
-                    }, []))
-                ]
-            }
-        })
-
-    ShowFirstArrayFiltered(result);
-}
-
-JoinAndFilterFirstArray();
-
-function ShowFirstArrayFiltered(result) {
+function showFirstArray(result) {
     const listContent = result
         .map((item) => {
             return (
@@ -79,30 +61,25 @@ function ShowFirstArrayFiltered(result) {
     document.getElementById('firstSolution').innerHTML = listContent.join('');
 }
 
-//second solution
-function JoinAndFilterSecondArray() {
-    for (let i = 0; i < lockers.length; i++) {
-        for (let j = 1; j < lockers.length; j++) {
-            if (lockers[i].type === lockers[j].type) {
-                const contentCurrent = lockers[i].content;
-                const contentNext = lockers[j].content;
-                lockers[i].content = [...new Set([...contentCurrent, ...contentNext])];
+function joinAndOrganizeFirstArray() {
+    const result = [...new Set(lockers.map(typeFiltered => typeFiltered.type))]
+        .map(typeFiltered => {
+            return {
+                type: typeFiltered,
+                content: [...new Set(lockers.filter(contentFiltered => contentFiltered.type === typeFiltered)
+                    .reduce((result, item) => {
+                        return [...result, ...item.content]
+                    }, []))
+                ]
             }
-        }
-    }
-
-    const arrayFiltered = [...new Set(lockers.map(typeFiltered => typeFiltered.type))]
-        .map(type => {
-            return lockers.find(a => a.type === type)
         })
-
-    ShowSecondArrayFiltered(arrayFiltered);
+    showFirstArray(result);
 }
+joinAndOrganizeFirstArray();
 
-JoinAndFilterSecondArray();
-
-function ShowSecondArrayFiltered(arrayFiltered) {
-    const listArrayFiltered = arrayFiltered
+//second solution
+function showSecondArray(array) {
+    const listArrayFiltered = array
         .map((item) => {
             return (
                 `<thead>
@@ -118,6 +95,42 @@ function ShowSecondArrayFiltered(arrayFiltered) {
             `
             )
         })
-
     document.getElementById('secondSolution').innerHTML = listArrayFiltered.join('');
 }
+
+function removeDuplicateType() {
+    const lockersUniqueCategory = []
+    lockers.forEach((item) => {
+        const lockersCategory = lockersUniqueCategory.some((unique) => (
+            unique.type === item.type
+        ));
+        if (!lockersCategory) {
+            lockersUniqueCategory.push(item)
+        }
+    })
+    showSecondArray(lockersUniqueCategory)
+}
+
+function joinSecondArray() {
+    for (let i = 0; i < lockers.length; i++) {
+        for (let j = 1; j < lockers.length; j++) {
+            if (lockers[i].type === lockers[j].type) {
+                const contentCurrent = lockers[i].content;
+                const contentNext = lockers[j].content;
+                lockers[i].content = [...contentCurrent, ...contentNext];
+            }
+        }
+        const lockersUniqueContent = []
+        lockers[i].content.forEach((item) => {
+            const lockersContent = lockersUniqueContent.some((unique) => (
+                unique === item
+            ));
+            if (!lockersContent) {
+                lockersUniqueContent.push(item)
+            }
+        })
+        lockers[i].content = lockersUniqueContent
+    }
+    removeDuplicateType()
+}
+joinSecondArray();
