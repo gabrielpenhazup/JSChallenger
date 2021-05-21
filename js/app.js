@@ -39,28 +39,30 @@ const lockers = [
     },
 ]
 
-//first solution
-function showFirstArray(result) {
-    const listContent = result
-        .map((item) => {
+//show arrays
+function showArray(array) {
+    const listArrayFiltered = array
+        .map(({type, content}) => {
             return (
                 `<thead>
                 <tr>
-                    <th>${item.type}</th>
+                    <th>${type}</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>${item.content}</td>
+                    <td>${content}</td>
                 </tr>
             </tbody>
             `
             )
         })
-
-    document.getElementById('firstSolution').innerHTML = listContent.join('');
+    array === lockers
+        ? document.getElementById('secondSolution').innerHTML = listArrayFiltered.join('')
+        : document.getElementById('firstSolution').innerHTML = listArrayFiltered.join('');
 }
 
+//first solution
 function joinAndOrganizeFirstArray() {
     const result = [...new Set(lockers.map(typeFiltered => typeFiltered.type))]
         .map(typeFiltered => {
@@ -73,42 +75,49 @@ function joinAndOrganizeFirstArray() {
                 ]
             }
         })
-    showFirstArray(result);
+    showArray(result);
 }
 joinAndOrganizeFirstArray();
 
 //second solution
-function showSecondArray(array) {
-    const listArrayFiltered = array
-        .map((item) => {
-            return (
-                `<thead>
-                <tr>
-                    <th>${item.type}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>${item.content}</td>
-                </tr>
-            </tbody>
-            `
-            )
-        })
-    document.getElementById('secondSolution').innerHTML = listArrayFiltered.join('');
+function removeDuplicateContent() {
+    for (let i = 0; i < lockers.length; i++) {
+        const uniques = [];
+        lockers[i].content.forEach((item) => {
+            const secondItem = item;
+            let isDuplicated = false;
+
+            for (var i = 0; i < uniques.length; i++) {
+                if (uniques[i] === item) {
+                    isDuplicated = true;
+                    break;
+                }
+            }
+
+            if (!isDuplicated) {
+                uniques.push(secondItem);
+            }
+        });
+        lockers[i].content = uniques
+    }
+
 }
 
 function removeDuplicateType() {
-    const lockersUniqueCategory = []
-    lockers.forEach((item) => {
-        const lockersCategory = lockersUniqueCategory.some((unique) => (
-            unique.type === item.type
-        ));
-        if (!lockersCategory) {
-            lockersUniqueCategory.push(item)
+    for (let i in lockers) {
+        let valueCompared = lockers[i].type
+        let cont = 0
+        for (let i in lockers) {
+            if (valueCompared === lockers[i].type) {
+                cont += 1
+                if (cont > 1) {
+                    cont--
+                    delete lockers[i]
+                }
+            }
         }
-    })
-    showSecondArray(lockersUniqueCategory)
+    }
+    showArray(lockers)
 }
 
 function joinSecondArray() {
@@ -117,19 +126,13 @@ function joinSecondArray() {
             if (lockers[i].type === lockers[j].type) {
                 const contentCurrent = lockers[i].content;
                 const contentNext = lockers[j].content;
-                lockers[i].content = [...contentCurrent, ...contentNext];
+                const result = contentCurrent.concat(contentNext);
+                result.forEach((item) => {
+                    lockers[i].content.push(item)
+                })
             }
         }
-        const lockersUniqueContent = []
-        lockers[i].content.forEach((item) => {
-            const lockersContent = lockersUniqueContent.some((unique) => (
-                unique === item
-            ));
-            if (!lockersContent) {
-                lockersUniqueContent.push(item)
-            }
-        })
-        lockers[i].content = lockersUniqueContent
+        removeDuplicateContent()
     }
     removeDuplicateType()
 }
